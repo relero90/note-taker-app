@@ -3,14 +3,14 @@ const express = require("express"); // remote module - express
 const chalk = require("chalk"); // remote module - chalk
 const path = require("path"); // remote module - path
 const fs = require("fs"); // shipped module - file system
-const db = require("./db/db.json"); // local database json file
+const db = require("./db/db.json"); // local database - .json file
 
 const PORT = process.env.PORT || 3001;
 
 const app = express(); // express app
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // are these necessary?
+app.use(express.urlencoded({ extended: true })); // are these necessary?
 
 // GET * should return the index.html file.
 app.get("/", (req, res) =>
