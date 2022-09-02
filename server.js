@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require("uuid"); // remote module - uuid
+const uuid = require("uuid"); // remote module - uuid
 const express = require("express"); // remote module - express
 const chalk = require("chalk"); // remote module - chalk
 const path = require("path"); // remote module - path
@@ -34,7 +34,7 @@ app.post("/api/notes", (req, res) => {
     const newNote = {
       title,
       text,
-      // id = uuid(),
+      id: uuid.v1(),
     };
     //receive a new note to save on the request body
     //give each note a unique id when it's saved
