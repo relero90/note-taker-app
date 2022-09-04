@@ -3,7 +3,6 @@ const express = require("express"); // remote module - express
 const chalk = require("chalk"); // remote module - chalk
 const path = require("path"); // remote module - path
 const fs = require("fs"); // shipped module - file system
-let db = require("./db/db.json"); // local database - .json file
 
 const PORT = process.env.PORT || 3001;
 
@@ -27,7 +26,6 @@ app.get("/api/notes", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log("success!");
       let savedNotes = JSON.parse(data);
       res.json(savedNotes);
     }
@@ -82,9 +80,9 @@ app.delete("/api/notes/:id", (req, res) => {
         if (reqId === savedNotes[i].id) {
           // remove the note with the given id property
           savedNotes.splice(i, 1);
-          // savedNotes = savedNotes.splice(i, 1);
           // then rewrite the notes to the db.json file.
           fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes), "utf-8");
+          res.json(savedNotes);
         }
       }
     }
