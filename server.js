@@ -27,7 +27,8 @@ app.get("/api/notes", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      let savedNotes = data;
+      console.log("success!");
+      let savedNotes = JSON.parse(data);
       res.json(savedNotes);
     }
   });
