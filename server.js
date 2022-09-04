@@ -3,7 +3,7 @@ const express = require("express"); // remote module - express
 const chalk = require("chalk"); // remote module - chalk
 const path = require("path"); // remote module - path
 const fs = require("fs"); // shipped module - file system
-const db = require("./db/db.json"); // local database - .json file
+let db = require("./db/db.json"); // local database - .json file
 
 const PORT = process.env.PORT || 3001;
 
@@ -22,7 +22,9 @@ app.get("/notes", (req, res) =>
   res.sendFile(path.join(__dirname, "/public/notes.html"))
 );
 // GET /api/notes should read the db.json file and return all saved notes as JSON.
-app.get("/api/notes", (req, res) => res.json(db));
+app.get("/api/notes", (req, res) => {
+  res.json(db);
+});
 
 app.post("/api/notes", (req, res) => {
   // Log that a POST request was received
@@ -50,17 +52,35 @@ app.post("/api/notes", (req, res) => {
           err
             ? console.error(err)
             : console.log(
-                `Note id ${newNote.id} has been written to JSON file.`
+                chalk.magenta(
+                  `Note id ${newNote.id} has been written to JSON file.`
+                )
               )
         );
       }
     });
     //return the new note to the client
     res.status(201).json(db);
+    window.location.reload();
   } else {
     res.status(500).json("Oops! Problem saving note.");
   }
 });
+
+// receive a query parameter that contains the id of a note to delete.
+// app.delete("/api/notes/:id", (req, res) => {
+//   // read all notes from the db.json file
+//   fs.readFile("./db/db.json", "utf-8", (err, data) => {
+//     const savedNotes = JSON.parse(data);
+//     //const reqDeleteId =
+//     // filter savedNotes array for notes with id = user query parameter
+//     savedNotes.filter((id) => {
+//       id === reqDeleteId;
+//     });
+//     // remove the note with the given id property
+//     // then rewrite the notes to the db.json file.
+//   });
+// });
 
 app.listen(PORT, () =>
   console.log(
