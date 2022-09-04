@@ -23,7 +23,14 @@ app.get("/notes", (req, res) =>
 );
 // GET /api/notes should read the db.json file and return all saved notes as JSON.
 app.get("/api/notes", (req, res) => {
-  res.json(db);
+  fs.readFile("./db/db.json", "utf-8", (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      let savedNotes = data;
+      res.json(savedNotes);
+    }
+  });
 });
 
 app.post("/api/notes", (req, res) => {
@@ -42,26 +49,19 @@ app.post("/api/notes", (req, res) => {
     //receive a new note to save on the request body
     //give each note a unique id when it's saved
     //add it to the db.json file
+    let savedNotes = [];
     fs.readFile("./db/db.json", "utf-8", (err, data) => {
       if (err) {
         console.log(err);
       } else {
-        const savedNotes = JSON.parse(data);
+        savedNotes = JSON.parse(data);
         savedNotes.push(newNote);
-        fs.writeFile("./db/db.json", JSON.stringify(savedNotes), (err) =>
-          err
-            ? console.error(err)
-            : console.log(
-                chalk.magenta(
-                  `Note id ${newNote.id} has been written to JSON file.`
-                )
-              )
-        );
+        fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes), "utf-8");
       }
     });
     //return the new note to the client
-    res.status(201).json(db);
-    window.location.reload();
+    //render the note
+    res.json(savedNotes);
   } else {
     res.status(500).json("Oops! Problem saving note.");
   }
