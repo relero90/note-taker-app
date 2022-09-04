@@ -69,19 +69,27 @@ app.post("/api/notes", (req, res) => {
 });
 
 // receive a query parameter that contains the id of a note to delete.
-// app.delete("/api/notes/:id", (req, res) => {
-//   // read all notes from the db.json file
-//   fs.readFile("./db/db.json", "utf-8", (err, data) => {
-//     const savedNotes = JSON.parse(data);
-//     //const reqDeleteId =
-//     // filter savedNotes array for notes with id = user query parameter
-//     savedNotes.filter((id) => {
-//       id === reqDeleteId;
-//     });
-//     // remove the note with the given id property
-//     // then rewrite the notes to the db.json file.
-//   });
-// });
+app.delete("/api/notes/:id", (req, res) => {
+  // read all notes from the db.json file
+  fs.readFile("./db/db.json", "utf-8", (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      let savedNotes = JSON.parse(data);
+      const reqId = req.params.id;
+      // filter savedNotes array for notes with id = user query parameter
+      for (var i = 0; i < savedNotes.length; i++) {
+        if (reqId === savedNotes[i].id) {
+          // remove the note with the given id property
+          savedNotes.splice(i, 1);
+          // savedNotes = savedNotes.splice(i, 1);
+          // then rewrite the notes to the db.json file.
+          fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes), "utf-8");
+        }
+      }
+    }
+  });
+});
 
 app.listen(PORT, () =>
   console.log(
