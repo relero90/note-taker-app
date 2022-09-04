@@ -11,6 +11,7 @@ const app = express(); // express app
 
 app.use(express.json()); // are these necessary?
 app.use(express.urlencoded({ extended: true })); // are these necessary?
+app.use(express.static("public"));
 
 // GET * should return the index.html file.
 app.get("/", (req, res) =>
