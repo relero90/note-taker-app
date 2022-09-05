@@ -1,7 +1,5 @@
 # Note Taker App
 
-![None of the above](https://img.shields.io/badge/license-NA-lightgrey)
-
 ## Description
 
 ---
@@ -12,10 +10,8 @@ This is an app that allows you to save titled notes to a list. The user may clic
 
 ---
 
-!["A screenshot of the app showing a column of saved notes on the left, text input areas for note text and title, an add button, and a save button."]()
+!["A screenshot of the app showing a column of saved notes on the left, text input areas for note text and title, an add button, and a save button."](./public/assets/images/screenshot.png)
 
-## Contact
+## Deployed Application
 
 ---
-
-- GitHub: [relero90](https://github.com/relero90)
